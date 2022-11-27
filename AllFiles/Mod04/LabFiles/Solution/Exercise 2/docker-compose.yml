@@ -1,0 +1,21 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+services:
+  productreviewsapi:
+    image: productreviewsapi
+    environment:
+      - ASPNETCORE_DATABASE=Server=host.docker.internal;Database=Mod1DB;User Id=DbUser;Password=Pa$$$$w0rd;MultipleActiveResultSets=True
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORT=443
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=Pa$$$$w0rd
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/ProductReviews.API.pfx 
+    volumes:
+      - ~\.aspnet\https:/https/
+    build:
+      context: .
+      dockerfile: ProductReviews.API/Dockerfile
+    ports:
+      - 8080:80
+      - 8081:443
