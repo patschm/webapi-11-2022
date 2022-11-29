@@ -4,6 +4,7 @@ using ProductReviews.DAL.EntityFramework.Entities;
 using ProductReviews.Interfaces;
 
 namespace ProductReviews.Repositories.EntityFramework;
+
 public class ProductGroupRepository : IProductGroupRepository
 {
     private readonly ProductReviewsContext _context;
@@ -38,7 +39,9 @@ public class ProductGroupRepository : IProductGroupRepository
 
     public async Task<ProductGroup> GetByIdAsync(int id)
     {
-        return await _context.ProductGroups!.FindAsync(id);
+        var q = from r in _context.ProductGroups where r.Id == id select r;
+        return await q.FirstOrDefaultAsync();
+        //return await _context.ProductGroups!.FindAsync(id);
     }
 
     public async Task<ICollection<Product>> GetProductsAsync(int productgroupId, int page = 1, int count = 10)
