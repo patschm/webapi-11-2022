@@ -33,7 +33,10 @@ public class BrandRepository : IBrandRepository
 
     public async Task<ICollection<Brand>> GetAsync(int page = 1, int count = 10)
     {
-        return await _context.Brands!.Skip((page-1) * count).Take(count).ToListAsync();
+        return await _context.Brands!.Skip((page-1) * count)
+        .Take(count)
+        .AsNoTracking()
+        .ToListAsync();
     }
 
     public async Task<Brand> GetByIdAsync(int id)
