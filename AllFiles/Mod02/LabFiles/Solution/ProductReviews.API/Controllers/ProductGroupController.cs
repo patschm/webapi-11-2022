@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ProductReviews.Interfaces;
 using ProductReviews.DAL.EntityFramework.Entities;
+using ProductReviews.API.Models;
+using ProductReviews.API.Extensions;
 
 namespace ProductReviews.API.Controllers
 {
@@ -20,14 +22,16 @@ namespace ProductReviews.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ICollection<ProductGroup>> Get(int page = 1, int count = 10)
+        public async Task<ICollection<ProductGroupModel>> Get(int page = 1, int count = 10)
         {
-            return await _repository.GetAsync(page, count);
+            var data = await _repository.GetAsync(page, count);
+            return data.Select(d=>d.ToModel()).ToList();
         }
         [HttpGet("{id}")]
-        public async Task<ProductGroup> Get(int id)
+        public async Task<ProductGroupModel> Get(int id)
         {
-            return await _repository.GetByIdAsync(id);
+            var result =  await _repository.GetByIdAsync(id);
+            return result.ToModel();
         }
         [HttpPost]
         public async Task<ProductGroup> Post([FromBody]ProductGroup productGroup)
