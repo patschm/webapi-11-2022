@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <title>Client</title>
+    </head>
+    <body>
+        <a href="https://login.microsoftonline.com/common/oauth2/v2.0/authorize
+        ?response_type=token
+        &client_id=52db6103-00b0-4b7d-a4ce-c48580b501d1
+        &redirect_uri=https://localhost:7038/index.html
+        &scope=api://b6059bec-b88f-4422-a541-08eab5cd7cad/Toegang
+        &response_mode=fragment&state=12345&nonce=678910">Login</a>
+
+        <h2 id="txt"></h2>
+        <script>
+            let arr = window.location.hash.substring(1).split("&");
+            let token = arr[0].split("=")[1];
+            console.log(token);
+            
+            async function Call()
+            {
+                try
+                {
+                let resp =  await fetch("https://localhost:7028/weatherforecast", {
+                    headers:{
+                        "Authorization": "Bearer " + token
+                        }
+                    })
+                    let js = await resp.text();
+                    document.querySelector("#txt").textContent = js;
+                }
+                catch(error)
+                {
+                    document.querySelector("#txt").textContent = error;
+                }
+            }
+            
+            Call();
+            // fetch("https://localhost:7175/weatherforecast", {
+            //     headers:{
+            //         "Authorization": "Bearer " + token
+            //     }
+            // }).then(resp=>console.log(resp));
+        </script>
+    </body>
+</html>

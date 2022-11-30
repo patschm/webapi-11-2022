@@ -17,5 +17,5 @@ services:
       context: .
       dockerfile: ProductReviews.API/Dockerfile
     ports:
-      - 8080:80
+      - 8088:80
       - 8081:443
