@@ -1,7 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using Microsoft.Identity.Client;
 
-//ConfidentialClientApplicationBuilder.Create("").WithClientSecret().Build();
+//ConfidentialClientApplicationBuilder.Create("").WithClientSecret("MB08Q~~zjtQzpZFTYWndSmlsE__F3GDvjLjYRbd.").Build();
 var app = PublicClientApplicationBuilder
     .Create("52db6103-00b0-4b7d-a4ce-c48580b501d1")
     .WithAuthority(AzureCloudInstance.AzurePublic, "common")

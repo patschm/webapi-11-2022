@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <title>ChatBox </title>
+    </head>
+    <body>
+        <div>
+            <input type="text" id="user" value=""/><button id="btnReg">Register</button>
+        </div>
+        <div>
+            <input type="text" id="chat" value=""/><button id="btnSend">Send</button>
+            <div id="otherlosers">
+                
+            </div>
+        </div>
+        <script src="/js/jquery/jquery.js"></script>
+        <script src="/js/signalr/signalr.js"></script>
+        <script>
+            const $btnReg = $("#btnReg");
+            const $btnSend = $("#btnSend");
+            const $txtUser = $("#user");
+            const $msg = $("#chat");
+            const $chat= $("#otherlosers");
+            const connection = new signalR.HubConnectionBuilder().withUrl("/chatbox").build();
+
+            $btnReg.click(evt=>{
+                connection.invoke("RegisterAsync", $txtUser.val());
+            });
+            $btnSend.click(evt=>{
+                connection.invoke("BlaatAsync", $txtUser.val(), $msg.val());
+            });
+
+            connection.on("hierbenik", txt=>{
+                $("<h3>").text(txt).appendTo($chat);
+            });
+            connection.on("blaat", (msg)=>{
+                $("<h4>").text(msg).appendTo($chat);
+            });
+            
+            connection.start()
+                .then(
+                    ()=>console.log("We have a connection"), 
+                    err=>console.error(err));
+        </script>
+    </body>
+</html>
